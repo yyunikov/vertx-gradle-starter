@@ -1,0 +1,4 @@
+rootProject.name = 'vertx-application'
+include 'api'
+include 'domain'
+

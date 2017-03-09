@@ -1,0 +1,45 @@
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+}
+
+description = 'api'
+
+repositories {
+	mavenCentral()
+}
+
+apply plugin: 'application'
+apply plugin: 'com.github.johnrengelman.shadow'
+
+mainClassName = 'io.vertx.core.Launcher'
+ext.mainVerticleName = 'com.yunikov.vertx.api.ApiVerticle'
+
+shadowJar {
+	classifier = 'fat'
+    baseName = 'api'
+    classifier = null
+    version = null
+	manifest {
+		attributes "Main-Verticle": mainVerticleName
+	}
+	mergeServiceFiles {
+		include 'META-INF/services/io.vertx.core.spi.VerticleFactory'
+	}
+}
+
+dependencies {
+	compile project(":domain")
+
+	compile "io.vertx:vertx-core"
+    compile "io.vertx:vertx-config"
+	compile "io.vertx:vertx-web"
+    compile "org.slf4j:slf4j-api"
+    compile "org.slf4j:slf4j-log4j12"
+
+    testCompile "io.vertx:vertx-unit"
+	testCompile "junit:junit"
+}
+
+apply from: rootProject.file('gradle/profiles.gradle')

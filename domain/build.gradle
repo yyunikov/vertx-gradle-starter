@@ -1,0 +1,12 @@
+repositories {
+    mavenCentral()
+}
+
+description = 'domain'
+
+dependencies {
+    compile "io.vertx:vertx-core"
+    compile "io.vertx:vertx-config"
+
+    testCompile group: 'junit', name: 'junit'
+}

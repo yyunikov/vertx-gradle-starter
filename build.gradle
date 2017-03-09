@@ -1,0 +1,73 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+
+plugins {
+    id 'java'
+    id 'application'
+    id 'idea'
+    id 'com.github.johnrengelman.shadow' version '1.2.3'
+    id "io.spring.dependency-management" version "1.0.0.RELEASE"
+}
+
+allprojects {
+    group 'com.yunikov'
+    version = "$version"
+
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: "io.spring.dependency-management"
+
+    ext {
+        watchForChange = 'src/**/*'
+        doOnChange = './gradlew classes'
+    }
+
+    task createProperties(dependsOn: processResources) << {
+        def gradlePropertiesFile = new File("$buildDir/resources/main/gradle.properties")
+        gradlePropertiesFile.getParentFile().mkdirs()
+        gradlePropertiesFile.createNewFile()
+        gradlePropertiesFile.withWriter{ w ->
+            Properties p = new Properties()
+            p['version'] = project.version.toString()
+            p.store w, null
+        }
+    }
+
+    classes {
+        dependsOn createProperties
+    }
+}
+
+subprojects {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    compileJava {
+        options.encoding = 'UTF-8'
+        options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+    }
+
+    compileTestJava {
+        options.encoding = 'UTF-8'
+    }
+
+    dependencyManagement {
+        dependencies {
+            dependency "io.vertx:vertx-core:$vertxVersion"
+            dependency "io.vertx:vertx-config:$vertxVersion"
+            dependency "io.vertx:vertx-web:$vertxVersion"
+            dependency "io.vertx:vertx-unit:$vertxVersion"
+            dependency "org.slf4j:slf4j-api:1.7.24"
+            dependency "org.slf4j:slf4j-log4j12:1.7.24"
+
+            dependency "junit:junit:4.12"
+        }
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.4.1'
+}
