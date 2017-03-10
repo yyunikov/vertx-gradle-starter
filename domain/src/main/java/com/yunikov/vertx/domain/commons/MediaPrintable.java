@@ -1,6 +1,6 @@
 package com.yunikov.vertx.domain.commons;
 
-public interface MediaPrinter {
+public interface MediaPrintable {
 
     Media print(final Media media);
 

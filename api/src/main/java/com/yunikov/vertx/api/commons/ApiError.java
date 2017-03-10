@@ -2,10 +2,10 @@ package com.yunikov.vertx.api.commons;
 
 import com.yunikov.vertx.api.vertx.VerticleException;
 import com.yunikov.vertx.domain.commons.Media;
-import com.yunikov.vertx.domain.commons.MediaPrinter;
+import com.yunikov.vertx.domain.commons.MediaPrintable;
 import io.netty.handler.codec.http.HttpResponseStatus;
 
-public class ApiError implements MediaPrinter {
+public class ApiError implements MediaPrintable {
 
     private final VerticleException exception;
 

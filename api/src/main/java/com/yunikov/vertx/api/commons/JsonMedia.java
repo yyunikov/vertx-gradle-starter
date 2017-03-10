@@ -1,6 +1,7 @@
 package com.yunikov.vertx.api.commons;
 
 import com.yunikov.vertx.domain.commons.Media;
+import com.yunikov.vertx.domain.commons.MediaPrintable;
 import io.vertx.core.json.JsonObject;
 
 import java.util.HashMap;
@@ -16,18 +17,29 @@ public class JsonMedia implements Media {
         this(new HashMap<>());
     }
 
-    public JsonMedia(final Map<String, Object> jsonMap) {
+    private JsonMedia(final Map<String, Object> jsonMap) {
         this.jsonMap = jsonMap;
     }
 
     @Override
     public Media with(final String key, final Object value) {
-        jsonMap.put(key, value);
+        if (value instanceof MediaPrintable) {
+            final JsonMedia media = new JsonMedia();
+            ((MediaPrintable) value).print(media);
+            jsonMap.put(key, new JsonObject(media.jsonMap));
+        } else {
+            jsonMap.put(key, value);
+        }
+
         return this;
     }
 
     @Override
     public String toString() {
-        return new JsonObject(jsonMap).encode();
+        return json().encode();
+    }
+
+    private JsonObject json() {
+        return new JsonObject(jsonMap);
     }
 }

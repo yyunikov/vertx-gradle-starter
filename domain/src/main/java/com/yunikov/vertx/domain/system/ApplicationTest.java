@@ -1,11 +1,11 @@
 package com.yunikov.vertx.domain.system;
 
 import com.yunikov.vertx.domain.commons.Media;
-import com.yunikov.vertx.domain.commons.MediaPrinter;
+import com.yunikov.vertx.domain.commons.MediaPrintable;
 
-public class ApplicationTest implements MediaPrinter {
-    private String hostname;
-    private String version;
+public class ApplicationTest implements MediaPrintable {
+    private final String hostname;
+    private final String version;
 
     public ApplicationTest(final String hostname, final String version) {
         this.hostname = hostname;
