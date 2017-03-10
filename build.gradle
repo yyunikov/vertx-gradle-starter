@@ -25,7 +25,10 @@ allprojects {
         doOnChange = './gradlew classes'
     }
 
-    task createProperties(dependsOn: processResources) << {
+    task createProperties(dependsOn: processResources/**/) {
+    }
+
+    tasks.createProperties.doLast {
         def gradlePropertiesFile = new File("$buildDir/resources/main/gradle.properties")
         gradlePropertiesFile.getParentFile().mkdirs()
         gradlePropertiesFile.createNewFile()
@@ -35,7 +38,6 @@ allprojects {
             p.store w, null
         }
     }
-
     classes {
         dependsOn createProperties
     }
