@@ -1,5 +1,6 @@
 package com.yunikov.vertx.api.endpoint;
 
+import com.yunikov.vertx.api.commons.JsonMedia;
 import com.yunikov.vertx.domain.system.System;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
@@ -17,6 +18,7 @@ public class SystemEndpoint extends Endpoint {
 
     private void test(final RoutingContext routingContext) {
         system.applicationTest()
-                .setHandler(jsonResponseHandler(routingContext, 200));
+                .setHandler(jsonResponseHandler(routingContext, 200,
+                        applicationTest -> applicationTest.printString(new JsonMedia())));
     }
 }

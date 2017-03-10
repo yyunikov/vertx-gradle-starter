@@ -1,7 +1,9 @@
 package com.yunikov.vertx.domain.system;
 
-public class ApplicationTest {
+import com.yunikov.vertx.domain.commons.Media;
+import com.yunikov.vertx.domain.commons.MediaPrinter;
 
+public class ApplicationTest implements MediaPrinter {
     private String hostname;
     private String version;
 
@@ -10,11 +12,9 @@ public class ApplicationTest {
         this.version = version;
     }
 
-    public String getHostname() {
-        return hostname;
-    }
-
-    public String getVersion() {
-        return version;
+    @Override
+    public Media print(final Media media) {
+        return media.with("hostname", hostname)
+                .with("version", version);
     }
 }

@@ -1,9 +1,11 @@
 package com.yunikov.vertx.api.commons;
 
 import com.yunikov.vertx.api.vertx.VerticleException;
+import com.yunikov.vertx.domain.commons.Media;
+import com.yunikov.vertx.domain.commons.MediaPrinter;
 import io.netty.handler.codec.http.HttpResponseStatus;
 
-public class ApiError {
+public class ApiError implements MediaPrinter {
 
     private final VerticleException exception;
 
@@ -11,23 +13,27 @@ public class ApiError {
         this.exception = exception;
     }
 
-    @SuppressWarnings("unused")
-    public long getTimestamp() {
+    @Override
+    public Media print(final Media media) {
+        return media.with("timestamp", timeStamp())
+                .with("status", status())
+                .with("error", error())
+                .with("message", message());
+    }
+
+    private long timeStamp() {
         return java.lang.System.nanoTime();
     }
 
-    @SuppressWarnings("unused")
-    public int getStatus() {
+    private int status() {
         return exception.getStatusCode();
     }
 
-    @SuppressWarnings("unused")
-    public String getError() {
+    private String error() {
         return HttpResponseStatus.valueOf(exception.getStatusCode()).reasonPhrase();
     }
 
-    @SuppressWarnings("unused")
-    public String getMessage() {
+    private String message() {
         return exception.getMessage();
     }
 }

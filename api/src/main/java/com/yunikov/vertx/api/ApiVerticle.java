@@ -1,7 +1,7 @@
 package com.yunikov.vertx.api;
 
 import com.yunikov.vertx.api.commons.ApiError;
-import com.yunikov.vertx.api.commons.JsonView;
+import com.yunikov.vertx.api.commons.JsonMedia;
 import com.yunikov.vertx.api.endpoint.Endpoints;
 import com.yunikov.vertx.api.vertx.VerticleException;
 import io.vertx.core.AbstractVerticle;
@@ -47,9 +47,9 @@ public class ApiVerticle extends AbstractVerticle {
         final Router router = Router.router(vertx);
         router.route().failureHandler(routingContext -> {
             final VerticleException exception = new VerticleException(routingContext.failure());
-            routingContext.response().putHeader(HttpHeaders.CONTENT_TYPE, JsonView.CONTENT_TYPE_UTF_8);
+            routingContext.response().putHeader(HttpHeaders.CONTENT_TYPE, JsonMedia.CONTENT_TYPE_UTF_8);
             routingContext.response().setStatusCode(exception.getStatusCode());
-            routingContext.response().end(new JsonView(new ApiError(exception)).print());
+            routingContext.response().end(new ApiError(exception).printString(new JsonMedia()));
         });
 
         return router;
