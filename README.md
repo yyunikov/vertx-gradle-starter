@@ -1,5 +1,5 @@
 # vertx-gradle-architecture-starter
-Starter application with example architecture using Vert.X framework, Gradle build system, profiles configuration and SLF4J.
+Starter application with example of using Vert.X framework, Gradle build system, profiles configuration and SLF4J.
 
 ## To run the application with local profile
 `./gradlew run -Plocal`
