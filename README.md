@@ -1,4 +1,4 @@
-# vertx-gradle-architecture-starter
+# vertx-gradle-starter
 Java 8 starter application with example of using Vert.X framework, Gradle build system, profiles configuration and SLF4J.
 
 ## To run the application with local profile
